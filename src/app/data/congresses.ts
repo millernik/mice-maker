@@ -11,6 +11,10 @@ export interface HotelOption {
 
 export interface Congress {
   id: string;
+  acronym: string;
+  year: string;
+  specialty: string;
+  venue: string;
   name: string;
   city: string;
   country: string;
@@ -24,6 +28,10 @@ export interface Congress {
 export const congresses: Congress[] = [
   {
     id: 'escmid',
+    acronym: 'ESCMID',
+    year: '2026',
+    specialty: 'Infectious Diseases',
+    venue: 'ICM Munich',
     name: 'European Society of Clinical Microbiology and Infectious Diseases',
     city: 'Munich',
     country: 'Germany',
@@ -40,6 +48,10 @@ export const congresses: Congress[] = [
   },
   {
     id: 'easd',
+    acronym: 'EASD',
+    year: '2026',
+    specialty: 'Diabetology',
+    venue: 'CCH Hamburg',
     name: 'European Association for the Study of Diabetes',
     city: 'Hamburg',
     country: 'Germany',
@@ -54,6 +66,10 @@ export const congresses: Congress[] = [
   },
   {
     id: 'eha',
+    acronym: 'EHAC',
+    year: '2026',
+    specialty: 'Hematology',
+    venue: 'MiCo Milano Congressi',
     name: 'European Hematology Association Congress',
     city: 'Milan',
     country: 'Italy',
@@ -68,6 +84,10 @@ export const congresses: Congress[] = [
   },
   {
     id: 'esmo',
+    acronym: 'ESMOC',
+    year: '2026',
+    specialty: 'Oncology',
+    venue: 'Prague Congress Centre',
     name: 'European Society for Medical Oncology Congress',
     city: 'Prague',
     country: 'Czech Republic',
@@ -82,6 +102,10 @@ export const congresses: Congress[] = [
   },
   {
     id: 'esc',
+    acronym: 'ESCC',
+    year: '2026',
+    specialty: 'Cardiology',
+    venue: 'ExCeL London',
     name: 'European Society of Cardiology Congress',
     city: 'London',
     country: 'United Kingdom',
@@ -96,6 +120,10 @@ export const congresses: Congress[] = [
   },
   {
     id: 'eular',
+    acronym: 'EAAR',
+    year: '2026',
+    specialty: 'Rheumatology',
+    venue: 'Messe Wien Exhibition Congress Center',
     name: 'European Alliance of Associations for Rheumatology',
     city: 'Vienna',
     country: 'Austria',

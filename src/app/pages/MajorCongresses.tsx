@@ -1,81 +1,16 @@
-import { useState, useEffect } from "react";
-import { Link, useNavigate, useSearchParams } from "react-router";
+import { useEffect, useMemo, useState } from "react";
+import { useNavigate, useSearchParams } from "react-router";
 import { Navigation } from "../components/Navigation";
 import { Footer } from "../components/Footer";
-import svgPaths from "../../imports/MajorCongressesDraft-1/svg-i2jf36z96n";
 import { congresses, Congress, AvailabilityStatus } from "../data/congresses";
-
-function ArrowIcon() {
-  return (
-    <div className="relative shrink-0 size-[15px]">
-      <svg className="absolute block inset-0 size-full" fill="none" preserveAspectRatio="none" viewBox="0 0 15 15">
-        <g>
-          <path d="M3.125 7.5H11.875" stroke="white" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.25" />
-          <path d={svgPaths.pb698300} stroke="white" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.25" />
-        </g>
-      </svg>
-    </div>
-  );
-}
-
-function ArrowRightGold() {
-  return (
-    <div className="relative shrink-0 size-[12.995px]">
-      <svg className="absolute block inset-0 size-full" fill="none" preserveAspectRatio="none" viewBox="0 0 12.9948 12.9948">
-        <g>
-          <path d="M2.70725 6.4974H10.2875" stroke="#C6A56B" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.0829" />
-          <path d={svgPaths.p31223a00} stroke="#C6A56B" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.0829" />
-        </g>
-      </svg>
-    </div>
-  );
-}
-
-function LocationIconSmall() {
-  return (
-    <div className="relative shrink-0 size-[11.997px]">
-      <svg className="absolute block inset-0 size-full" fill="none" preserveAspectRatio="none" viewBox="0 0 11.9965 11.9965">
-        <g clipPath="url(#clip_loc_mc)">
-          <path d={svgPaths.p9931180} stroke="#6B6B6B" strokeLinecap="round" strokeLinejoin="round" strokeWidth="0.999711" />
-          <path d={svgPaths.p3f162900} stroke="#6B6B6B" strokeLinecap="round" strokeLinejoin="round" strokeWidth="0.999711" />
-        </g>
-        <defs>
-          <clipPath id="clip_loc_mc">
-            <rect fill="white" height="11.9965" width="11.9965" />
-          </clipPath>
-        </defs>
-      </svg>
-    </div>
-  );
-}
-
-function CalendarIconSmall() {
-  return (
-    <div className="relative shrink-0 size-[11.997px]">
-      <svg className="absolute block inset-0 size-full" fill="none" preserveAspectRatio="none" viewBox="0 0 11.9965 11.9965">
-        <g clipPath="url(#clip_cal_mc)">
-          <path d="M3.99884 0.999711V2.99913" stroke="#6B6B6B" strokeLinecap="round" strokeLinejoin="round" strokeWidth="0.999711" />
-          <path d="M7.99769 0.999711V2.99913" stroke="#6B6B6B" strokeLinecap="round" strokeLinejoin="round" strokeWidth="0.999711" />
-          <path d={svgPaths.p9d58900} stroke="#6B6B6B" strokeLinecap="round" strokeLinejoin="round" strokeWidth="0.999711" />
-          <path d="M1.49957 4.99855H10.497" stroke="#6B6B6B" strokeLinecap="round" strokeLinejoin="round" strokeWidth="0.999711" />
-        </g>
-        <defs>
-          <clipPath id="clip_cal_mc">
-            <rect fill="white" height="11.9965" width="11.9965" />
-          </clipPath>
-        </defs>
-      </svg>
-    </div>
-  );
-}
 
 function SearchIcon() {
   return (
     <div className="relative shrink-0 size-[13.993px]">
       <svg className="absolute block inset-0 size-full" fill="none" preserveAspectRatio="none" viewBox="0 0 13.9931 13.9931">
         <g>
-          <path d={svgPaths.p3c6b7300} stroke="#6B6B6B" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.16609" />
-          <path d={svgPaths.p26889000} stroke="#6B6B6B" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.16609" />
+          <path d="M6.4135 11.0809C8.9905 11.0809 11.0809 8.9905 11.0809 6.4135C11.0809 3.8365 8.9905 1.74609 6.4135 1.74609C3.8365 1.74609 1.74609 3.8365 1.74609 6.4135C1.74609 8.9905 3.8365 11.0809 6.4135 11.0809Z" stroke="#6B6B6B" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.16609" />
+          <path d="M12.2468 12.2471L9.7085 9.70874" stroke="#6B6B6B" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.16609" />
         </g>
       </svg>
     </div>
@@ -84,16 +19,9 @@ function SearchIcon() {
 
 function ChevronDown() {
   return (
-    <div className="relative shrink-0 size-[14px]">
-      <svg className="absolute block inset-0 size-full" fill="none" preserveAspectRatio="none" viewBox="0 0 14 14">
-        <g>
-          <mask id="mask_chevron" maskUnits="userSpaceOnUse" style={{ maskType: "alpha" }} width="14" height="14" x="0" y="0">
-            <rect fill="#D9D9D9" height="14" width="14" />
-          </mask>
-          <g mask="url(#mask_chevron)">
-            <path d={svgPaths.p29a29700} fill="#6B6B6B" />
-          </g>
-        </g>
+    <div className="pointer-events-none absolute left-[12px] top-1/2 -translate-y-1/2">
+      <svg fill="none" height="14" viewBox="0 0 14 14" width="14">
+        <path d="M3.5 5.25L7 8.75L10.5 5.25" stroke="#6B6B6B" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.25" />
       </svg>
     </div>
   );
@@ -119,379 +47,308 @@ function FilterIcon() {
   );
 }
 
-function AvailabilityBadge({ status }: { status: AvailabilityStatus }) {
-  if (status === 'rooms-available') {
-    return (
-      <div className="bg-[#f0fdf4] rounded-[8px] shrink-0 w-fit relative">
-        <div aria-hidden="true" className="absolute border-[#bbf7d0] border-[0.556px] border-solid inset-0 pointer-events-none rounded-[8px]" />
-        <div className="flex items-center gap-[6px] px-[10px] py-[6px]">
-          <div className="bg-[#16a34a] rounded-[2.999px] size-[5.998px] shrink-0" />
-          <p className="font-['Inter',sans-serif] font-semibold leading-[15px] not-italic text-[#14532d] text-[10px] whitespace-nowrap">Rooms Available</p>
-        </div>
-      </div>
-    );
-  }
-  if (status === 'limited-availability') {
-    return (
-      <div className="bg-[#fdf8f0] rounded-[8px] shrink-0 w-fit relative">
-        <div aria-hidden="true" className="absolute border-[#e8d5b3] border-[0.556px] border-solid inset-0 pointer-events-none rounded-[8px]" />
-        <div className="flex items-center gap-[6px] px-[10px] py-[6px]">
-          <div className="bg-[#c6a56b] rounded-[2.999px] size-[5.998px] shrink-0" />
-          <p className="font-['Inter',sans-serif] font-semibold leading-[15px] not-italic text-[#78501a] text-[10px] whitespace-nowrap">Limited Availability</p>
-        </div>
-      </div>
-    );
-  }
+function ArrowRight({ dark }: { dark: boolean }) {
+  const stroke = dark ? "#FFFFFF" : "#3D3A35";
+
   return (
-    <div className="bg-[#f5f3ef] rounded-[8px] shrink-0 w-fit relative">
-      <div aria-hidden="true" className="absolute border-[#ddd8cf] border-[0.556px] border-solid inset-0 pointer-events-none rounded-[8px]" />
-      <div className="flex items-center gap-[6px] px-[10px] py-[6px]">
-        <div className="bg-[#8c8880] rounded-[2.999px] size-[5.998px] shrink-0" />
-        <p className="font-['Inter',sans-serif] font-semibold leading-[15px] not-italic text-[#3d3a35] text-[10px] whitespace-nowrap">Request Rooms</p>
-      </div>
+    <div className="relative shrink-0 size-[15px]">
+      <svg className="absolute block inset-0 size-full" fill="none" preserveAspectRatio="none" viewBox="0 0 15 15">
+        <g>
+          <path d="M3.125 7.5H11.875" stroke={stroke} strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.25" />
+          <path d="M7.5 3.125L11.875 7.5L7.5 11.875" stroke={stroke} strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.25" />
+        </g>
+      </svg>
     </div>
   );
 }
 
-function CongressCardWithHover({ congress }: { congress: Congress }) {
+function FilterField({
+  label,
+  children,
+  className = "",
+}: {
+  label: string;
+  children: React.ReactNode;
+  className?: string;
+}) {
   return (
-    <Link to={`/congresses/${congress.id}`} className="block">
-      <CongressCardLarge congress={congress} />
-    </Link>
+    <div className={`flex min-w-[140px] flex-1 flex-col gap-[8px] ${className}`}>
+      <p className="font-['Inter',sans-serif] text-[10px] font-bold uppercase tracking-[1px] text-[#6b6b6b]">
+        {label}
+      </p>
+      {children}
+    </div>
   );
 }
 
-function CongressCardLarge({ congress }: { congress: Congress }) {
+function FilterSelect({
+  value,
+  onChange,
+  options,
+}: {
+  value: string;
+  onChange: (value: string) => void;
+  options: string[];
+}) {
   return (
-    <div className="bg-white h-[348.22px] relative rounded-[12px] shrink-0 w-full cursor-pointer hover:shadow-[0px_4px_20px_0px_rgba(26,26,26,0.12)] hover:scale-[1.02] transition-all duration-300" data-name="CongressCard">
-      <div className="content-stretch flex flex-col items-start overflow-clip p-px relative rounded-[inherit] size-full">
-        <div className="flex-[1_0_0] min-h-px relative w-full">
-          <div className="content-stretch flex flex-col items-start justify-between p-[20px] relative size-full">
-            {/* Top: badge + title */}
-            <div className="content-stretch flex flex-col gap-[12px] items-start relative shrink-0 w-full">
-              <div className="content-stretch flex flex-col h-[28.837px] items-start pt-[0.729px] relative shrink-0 w-fit">
-                <div className="w-fit min-w-[108px]">
-                  <AvailabilityBadge status={congress.availability} />
-                </div>
-              </div>
-              <div className="content-stretch flex items-center justify-center relative shrink-0 w-full">
-                <p className="font-['Inter',sans-serif] font-semibold leading-[normal] not-italic relative shrink-0 text-[#3f3f3f] text-[24px] w-full">{congress.name}</p>
-              </div>
+    <div className="relative h-[45px] w-full rounded-[8px] border-[0.556px] border-[#e8e4dc] bg-white">
+      <ChevronDown />
+      <select
+        value={value}
+        onChange={(event) => onChange(event.target.value)}
+        className="h-full w-full appearance-none bg-transparent pl-[34px] pr-[12px] font-['Inter',sans-serif] text-[13px] font-normal text-[#6b6b6b] outline-none"
+      >
+        {options.map((option) => (
+          <option key={option} value={option}>
+            {option}
+          </option>
+        ))}
+      </select>
+    </div>
+  );
+}
+
+function CongressCard({ congress }: { congress: Congress }) {
+  const navigate = useNavigate();
+  const hasListedHotels = congress.availability === "rooms-available";
+  const ctaLabel = hasListedHotels ? "View Listed Hotels" : "Request Rooms";
+  const ctaTarget = hasListedHotels
+    ? `/congresses/${congress.id}`
+    : `/contact?congress=${encodeURIComponent(congress.id)}`;
+
+  return (
+    <article className="flex min-h-[348px] flex-col rounded-[12px] border-[0.556px] border-[#e8e4dc] bg-white p-[20px] shadow-[0px_2px_12px_0px_rgba(26,26,26,0.05)]">
+      <div className="flex flex-1 flex-col justify-between gap-[24px]">
+        <div className="flex flex-col gap-[12px] text-[#3f3f3f]">
+          <h2 className="font-['Inter',sans-serif] text-[24px] font-semibold leading-[1.05]">
+            {`${congress.acronym} ${congress.year} – ${congress.city}`}
+          </h2>
+          <p className="font-['Inter',sans-serif] text-[16px] font-medium leading-[1.25] text-[#3f3f3f]">
+            {congress.name}
+          </p>
+        </div>
+
+        <div className="flex flex-col gap-[12px]">
+          <div className="flex flex-col gap-[5px]">
+            <p className="font-['Inter',sans-serif] text-[12px] font-normal leading-[18px] text-[#6b6b6b]">
+              {congress.venue}
+            </p>
+            <div className="flex flex-wrap gap-x-[12px] gap-y-[2px] font-['Inter',sans-serif] text-[12px] font-normal leading-[18px] text-[#6b6b6b]">
+              <span>{congress.location}</span>
+              <span>{congress.dateRange}</span>
             </div>
-            {/* Bottom: location + date + view details */}
-            <div className="content-stretch flex flex-col gap-[12px] items-start relative shrink-0 w-full">
-              <div className="content-stretch flex gap-[12px] items-start relative shrink-0 w-full">
-                <div className="h-[17.995px] relative shrink-0">
-                  <div className="content-stretch flex gap-[7.995px] items-center relative size-full">
-                    <LocationIconSmall />
-                    <p className="font-['Inter',sans-serif] font-normal leading-[18px] not-italic relative shrink-0 text-[#6b6b6b] text-[12px] whitespace-nowrap">{congress.location}</p>
-                  </div>
-                </div>
-                <div className="h-[17.995px] relative shrink-0">
-                  <div className="content-stretch flex gap-[7.995px] items-center relative size-full">
-                    <CalendarIconSmall />
-                    <p className="font-['Inter',sans-serif] font-normal leading-[18px] not-italic relative shrink-0 text-[#6b6b6b] text-[12px] whitespace-nowrap">{congress.dateRange}</p>
-                  </div>
-                </div>
-              </div>
-              <div className="content-stretch flex h-[32.543px] items-center justify-between pt-[14.556px] relative shrink-0 w-full">
-                <div aria-hidden="true" className="absolute border-[#e8e4dc] border-solid border-t-[0.556px] inset-0 pointer-events-none" />
-                <p className="font-['Inter',sans-serif] font-semibold leading-[18px] not-italic text-[#c6a56b] text-[12px] whitespace-nowrap">View details</p>
-                <ArrowRightGold />
-              </div>
-            </div>
+          </div>
+
+          <div className="border-t-[0.556px] border-[#e8e4dc] pt-[14.556px]">
+            <button
+              type="button"
+              onClick={() => navigate(ctaTarget)}
+              className={`flex w-full items-center justify-between rounded-[10px] px-[24px] py-[12px] font-['Inter',sans-serif] text-[12px] font-semibold leading-[18px] shadow-[0px_2px_8px_rgba(198,165,107,0.35)] transition-colors ${
+                hasListedHotels
+                  ? "bg-[#c6a56b] text-white hover:bg-[#b9955b]"
+                  : "border border-[#ddd8cf] bg-[#f5f3ef] text-[#3d3a35] shadow-[0px_4px_2px_rgba(0,0,0,0.04)] hover:bg-[#efebe4]"
+              }`}
+            >
+              <span>{ctaLabel}</span>
+              <ArrowRight dark={hasListedHotels} />
+            </button>
           </div>
         </div>
       </div>
-      <div aria-hidden="true" className="absolute border-[#e8e4dc] border-[0.556px] border-solid inset-0 pointer-events-none rounded-[12px] shadow-[0px_2px_12px_0px_rgba(26,26,26,0.05)]" />
-    </div>
+    </article>
   );
 }
 
 export default function MajorCongresses() {
-  const navigate = useNavigate();
   const [searchParams] = useSearchParams();
-  const [searchQuery, setSearchQuery] = useState('');
-  const [availabilityFilter, setAvailabilityFilter] = useState<AvailabilityStatus | ''>('');
-  const [cityFilter, setCityFilter] = useState('');
-  const [countryFilter, setCountryFilter] = useState('');
-  const [sortBy, setSortBy] = useState<'date' | 'city' | 'availability'>('date');
+  const searchQueryFromUrl = searchParams.get("q") ?? "";
+  const monthFilter = searchParams.get("month") ?? "";
+  const statusFilter = searchParams.get("status") ?? "";
+  const locationFilter = searchParams.get("location") ?? "";
+  const yearFilterFromUrl = searchParams.get("year") ?? "Any Year";
+  const specialtyFilterFromUrl = searchParams.get("specialty") ?? "Any Specialty";
 
-  // Initialize filters from URL parameters
+  const [searchQuery, setSearchQuery] = useState("");
+  const [countryFilter, setCountryFilter] = useState("All Countries");
+  const [cityFilter, setCityFilter] = useState("All Cities");
+  const [yearFilter, setYearFilter] = useState("Any Year");
+  const [specialtyFilter, setSpecialtyFilter] = useState("Any Specialty");
+  const [availabilityFilter, setAvailabilityFilter] = useState("All Availability");
+
   useEffect(() => {
-    const query = searchParams.get('q');
-    const location = searchParams.get('location');
-    const month = searchParams.get('month');
-    const status = searchParams.get('status');
+    const normalizedStatus =
+      statusFilter === "Rooms Available" || statusFilter === "rooms-available"
+        ? "Rooms Available"
+        : statusFilter === "Limited Availability" || statusFilter === "limited-availability"
+          ? "Limited Availability"
+          : statusFilter === "Request Rooms" || statusFilter === "request-rooms"
+            ? "Request Rooms"
+            : "All Availability";
 
-    if (query) setSearchQuery(query);
-    if (location) setCityFilter(location);
+    setSearchQuery(searchQueryFromUrl);
+    setCityFilter(locationFilter || "All Cities");
+    setYearFilter(yearFilterFromUrl || "Any Year");
+    setSpecialtyFilter(specialtyFilterFromUrl || "Any Specialty");
+    setAvailabilityFilter(normalizedStatus);
+  }, [locationFilter, searchQueryFromUrl, specialtyFilterFromUrl, statusFilter, yearFilterFromUrl]);
 
-    if (status) {
-      const statusMap: { [key: string]: AvailabilityStatus } = {
-        'Rooms Available': 'rooms-available',
-        'Limited Availability': 'limited-availability',
-        'Request Rooms': 'request-rooms'
-      };
-      const mappedStatus = statusMap[status];
-      if (mappedStatus) setAvailabilityFilter(mappedStatus);
-    }
-  }, [searchParams]);
+  const countries = useMemo(
+    () => ["All Countries", ...Array.from(new Set(congresses.map((congress) => congress.country)))],
+    [],
+  );
+  const cities = useMemo(
+    () => ["All Cities", ...Array.from(new Set(congresses.map((congress) => congress.city)))],
+    [],
+  );
+  const years = useMemo(
+    () => ["Any Year", ...Array.from(new Set(congresses.map((congress) => congress.year)))],
+    [],
+  );
+  const specialties = useMemo(
+    () => ["Any Specialty", ...Array.from(new Set(congresses.map((congress) => congress.specialty)))],
+    [],
+  );
 
-  // Get unique cities and countries
-  const cities = ['All Cities', ...Array.from(new Set(congresses.map(c => c.city)))];
-  const countries = ['All Countries', ...Array.from(new Set(congresses.map(c => c.country)))];
+  const filteredCongresses = useMemo(() => {
+    return congresses.filter((congress) => {
+      const searchableText = [
+        congress.acronym,
+        congress.name,
+        congress.specialty,
+        congress.venue,
+        congress.location,
+        congress.city,
+        congress.country,
+        congress.dateRange,
+        congress.year,
+      ]
+        .join(" ")
+        .toLowerCase();
 
-  // Get month from URL params for filtering
-  const monthFilter = searchParams.get('month');
+      if (searchQuery && !searchableText.includes(searchQuery.toLowerCase())) {
+        return false;
+      }
 
-  // Filter and sort congresses
-  const filtered = congresses
-    .filter(c => {
-      if (searchQuery && !c.name.toLowerCase().includes(searchQuery.toLowerCase()) &&
-          !c.location.toLowerCase().includes(searchQuery.toLowerCase())) return false;
-      if (availabilityFilter && c.availability !== availabilityFilter) return false;
-      if (cityFilter && cityFilter !== 'All Cities' && c.city !== cityFilter) return false;
-      if (countryFilter && countryFilter !== 'All Countries' && c.country !== countryFilter) return false;
+      if (countryFilter !== "All Countries" && congress.country !== countryFilter) {
+        return false;
+      }
 
-      // Month filtering - check if the dateRange contains the selected month
-      if (monthFilter && monthFilter !== 'Any Month') {
-        if (!c.dateRange.toLowerCase().includes(monthFilter.toLowerCase())) return false;
+      if (cityFilter !== "All Cities" && congress.city !== cityFilter) {
+        return false;
+      }
+
+      if (yearFilter !== "Any Year" && congress.year !== yearFilter) {
+        return false;
+      }
+
+      if (specialtyFilter !== "Any Specialty" && congress.specialty !== specialtyFilter) {
+        return false;
+      }
+
+      if (availabilityFilter === "Rooms Available" && congress.availability !== "rooms-available") {
+        return false;
+      }
+
+      if (availabilityFilter === "Limited Availability" && congress.availability !== "limited-availability") {
+        return false;
+      }
+
+      if (availabilityFilter === "Request Rooms" && congress.availability !== "request-rooms") {
+        return false;
+      }
+
+      if (monthFilter && monthFilter !== "Any Month" && !congress.dateRange.toLowerCase().includes(monthFilter.toLowerCase())) {
+        return false;
       }
 
       return true;
-    })
-    .sort((a, b) => {
-      if (sortBy === 'city') return a.city.localeCompare(b.city);
-      if (sortBy === 'availability') {
-        const order = { 'rooms-available': 0, 'limited-availability': 1, 'request-rooms': 2 };
-        return order[a.availability] - order[b.availability];
-      }
-      // date sort - by dateRange string
-      return a.dateRange.localeCompare(b.dateRange);
     });
-
-  const countByAvailability = (status: AvailabilityStatus) => congresses.filter(c => c.availability === status).length;
+  }, [availabilityFilter, cityFilter, countryFilter, monthFilter, searchQuery, specialtyFilter, yearFilter]);
 
   return (
-    <div className="bg-white content-stretch flex flex-col items-center relative min-h-screen w-full" data-name="Major Congresses Draft">
+    <div className="min-h-screen bg-white">
       <Navigation currentPage="congresses" />
-      <div className="w-full">
-        {/* Hero */}
-        <div className="bg-[#f0eadf] relative shrink-0 w-full" data-name="Section">
-          <div className="overflow-clip rounded-[inherit] size-full">
-            <div className="content-stretch flex flex-col gap-[10px] items-start px-[50px] py-[100px] relative size-full">
-              <div className="content-stretch flex flex-col gap-[26px] items-start relative shrink-0 w-[737px]">
-                <p className="font-['Inter',sans-serif] font-bold leading-[60px] min-w-full not-italic relative shrink-0 text-[#3f3f3f] text-[56px] w-[min-content]">Major Medical Congresses across Europe </p>
-                <p className="font-['Inter',sans-serif] font-normal leading-[29.75px] min-w-full not-italic relative shrink-0 text-[#6b6b6b] text-[17px] w-[min-content]">High demand and limited availability make early planning essential. We provide access to secured hotel contingents across major congresses. </p>
-                <button
-                  onClick={() => navigate('/contact')}
-                  className="bg-[#c6a56b] content-stretch drop-shadow-[0px_2px_8px_rgba(198,165,107,0.35)] flex gap-[10px] items-center px-[24px] py-[12px] relative rounded-[10px] shrink-0 cursor-pointer hover:bg-[#b8924a] transition-colors"
-                >
-                  <p className="font-['Inter',sans-serif] font-bold leading-[21px] not-italic relative shrink-0 text-[14px] text-white whitespace-nowrap">Explore how it works</p>
-                  <ArrowIcon />
-                </button>
-              </div>
-              {/* Decorative vector */}
-              <div className="-translate-y-1/2 absolute h-[432px] left-[902px] top-[calc(50%+5.5px)] w-[388px]" data-name="Vector">
-                <svg className="absolute block inset-0 size-full" fill="none" preserveAspectRatio="none" viewBox="0 0 388 432">
-                  <path d={svgPaths.p2e7f6e80} stroke="url(#paint0_linear_mc)" />
-                  <defs>
-                    <linearGradient gradientUnits="userSpaceOnUse" id="paint0_linear_mc" x1="375.067" x2="9.25461" y1="38.3226" y2="414.887">
-                      <stop stopColor="#C6A56B" />
-                      <stop offset="1" stopColor="#C6A56B" stopOpacity="0" />
-                    </linearGradient>
-                  </defs>
-                </svg>
-              </div>
+
+      <main>
+        <section className="bg-[#f0eadf]">
+          <div className="mx-auto w-full max-w-[1440px] px-[30px] py-[72px] md:px-[50px] md:py-[100px]">
+            <div className="max-w-[737px]">
+              <h1 className="font-['Inter',sans-serif] text-[42px] font-semibold leading-[1.05] text-[#3f3f3f] md:text-[56px] md:leading-[60px]">
+                Major Medical Congresses
+              </h1>
+              <p className="mt-[26px] max-w-[610px] font-['Inter',sans-serif] text-[17px] font-normal leading-[29.75px] text-[#6b6b6b]">
+                High demand and limited availability make early planning essential. We provide access to
+                secured hotel contingents across major congresses.
+              </p>
             </div>
           </div>
-        </div>
+        </section>
 
-        {/* Main content: filter + cards */}
-        <div className="px-[50px] py-[50px] flex gap-[30px] items-start">
-          {/* Filter sidebar */}
-          <div className="bg-white flex-[1_0_0] min-w-px relative rounded-[12px] shadow-[0px_2px_12px_0px_rgba(26,26,26,0.05)]">
-            <div className="overflow-clip rounded-[inherit] size-full">
-              <div className="content-stretch flex flex-col gap-[20px] items-start p-[24px] relative size-full">
-                {/* Header */}
-                <div className="content-stretch flex gap-[7.995px] h-[19.505px] items-center relative shrink-0 w-full">
-                  <FilterIcon />
-                  <p className="font-['Inter',sans-serif] font-bold leading-[19.5px] not-italic text-[#3f3f3f] text-[13px] whitespace-nowrap">Filters & Sort</p>
-                </div>
-                {/* Search */}
-                <div className="content-stretch flex flex-col items-start relative shrink-0 w-full">
-                  <div className="content-stretch flex h-[45px] items-center relative shrink-0 w-full">
-                    <div className="bg-white flex-[1_0_0] h-full min-w-px relative rounded-[8px]">
-                      <div className="flex flex-row items-center overflow-clip rounded-[inherit] size-full">
-                        <div className="content-stretch flex gap-[12px] items-center px-[12px] py-[8px] relative size-full">
-                          <SearchIcon />
-                          <input
-                            type="text"
-                            placeholder="Search congresses…"
-                            value={searchQuery}
-                            onChange={e => setSearchQuery(e.target.value)}
-                            className="font-['Inter',sans-serif] font-normal not-italic text-[13px] text-[#1a1a1a] bg-transparent outline-none w-full placeholder-[rgba(26,26,26,0.5)]"
-                          />
-                        </div>
-                      </div>
-                      <div aria-hidden="true" className="absolute border-[#e8e4dc] border-[0.556px] border-solid inset-0 pointer-events-none rounded-[8px]" />
-                    </div>
+        <section className="bg-[#f8f7f4]">
+          <div className="mx-auto flex w-full max-w-[1440px] flex-col gap-[40px] px-[30px] py-[40px] md:px-[50px] md:py-[50px]">
+            <div className="rounded-[12px] bg-white p-[24px] shadow-[0px_2px_12px_0px_rgba(26,26,26,0.05)]">
+              <div className="flex flex-col gap-[16px] xl:flex-row xl:items-end">
+                <div className="w-full xl:w-[350px] xl:flex-none">
+                  <div className="mb-[8px] flex items-center gap-[7.995px]">
+                    <FilterIcon />
+                    <p className="font-['Inter',sans-serif] text-[13px] font-bold leading-[19.5px] text-[#3f3f3f]">
+                      Filters
+                    </p>
+                  </div>
+                  <div className="flex h-[45px] items-center gap-[12px] rounded-[8px] border-[0.556px] border-[#e8e4dc] bg-white px-[12px] py-[8px]">
+                    <SearchIcon />
+                    <input
+                      type="text"
+                      value={searchQuery}
+                      onChange={(event) => setSearchQuery(event.target.value)}
+                      placeholder="Search congresses..."
+                      className="w-full bg-transparent font-['Inter',sans-serif] text-[13px] font-normal text-[#1a1a1a] outline-none placeholder:text-[rgba(26,26,26,0.5)]"
+                    />
                   </div>
                 </div>
-                {/* Divider */}
-                <div className="bg-[#e8e4dc] h-px relative shrink-0 w-full" />
-                {/* Availability */}
-                <div className="content-stretch flex flex-col gap-[8px] items-start relative shrink-0 w-full">
-                  <p className="font-['Inter',sans-serif] font-bold leading-[15px] not-italic text-[#6b6b6b] text-[10px] tracking-[1px] uppercase whitespace-nowrap">Availability</p>
-                  <div className="content-stretch flex flex-col gap-[7.995px] items-start relative shrink-0 w-full">
-                    {/* Rooms Available */}
-                    {[
-                      { status: 'rooms-available' as AvailabilityStatus, color: '#16a34a', label: 'Rooms Available' },
-                      { status: 'limited-availability' as AvailabilityStatus, color: '#c6a56b', label: 'Limited Availability' },
-                      { status: 'request-rooms' as AvailabilityStatus, color: '#8c8880', label: 'Request Rooms' },
-                    ].map(item => (
-                      <button
-                        key={item.status}
-                        onClick={() => setAvailabilityFilter(availabilityFilter === item.status ? '' : item.status)}
-                        className={`bg-white h-[38.698px] relative rounded-[8px] shrink-0 w-full text-left cursor-pointer ${availabilityFilter === item.status ? 'ring-1 ring-[#c6a56b]' : ''}`}
-                      >
-                        <div aria-hidden="true" className="absolute border-[#e8e4dc] border-[0.556px] border-solid inset-0 pointer-events-none rounded-[8px]" />
-                        <div className="flex flex-row items-center size-full">
-                          <div className="content-stretch flex gap-[10px] items-center pl-[12.553px] pr-[12.552px] py-[9.556px] relative size-full">
-                            <div className="rounded-[3.498px] shrink-0 size-[6.997px]" style={{ background: item.color }} />
-                            <div className="flex-[132.839_0_0] h-[17.995px] min-w-px relative">
-                              <p className="absolute font-['Inter',sans-serif] font-normal leading-[18px] left-0 not-italic text-[#3f3f3f] text-[12px] top-[0.67px] whitespace-nowrap">{item.label}</p>
-                            </div>
-                            <div className="bg-[#f8f7f4] h-[19.601px] relative rounded-[10px] shrink-0 w-[21.962px]">
-                              <div aria-hidden="true" className="absolute border-[#e8e4dc] border-[0.556px] border-solid inset-0 pointer-events-none rounded-[10px]" />
-                              <p className="absolute font-['Inter',sans-serif] font-semibold leading-[16.5px] left-[7.55px] not-italic text-[#6b6b6b] text-[11px] top-[1.66px] whitespace-nowrap">{countByAvailability(item.status)}</p>
-                            </div>
-                          </div>
-                        </div>
-                      </button>
-                    ))}
-                  </div>
-                </div>
-                {/* Divider */}
-                <div className="bg-[#e8e4dc] h-px relative shrink-0 w-full" />
-                {/* City */}
-                <div className="content-stretch flex flex-col gap-[8px] items-start relative shrink-0 w-full">
-                  <p className="font-['Inter',sans-serif] font-bold leading-[15px] not-italic text-[#6b6b6b] text-[10px] tracking-[1px] uppercase whitespace-nowrap">City</p>
-                  <div className="bg-white h-[36.606px] relative rounded-[8px] shrink-0 w-full">
-                    <div aria-hidden="true" className="absolute border-[#e8e4dc] border-[0.556px] border-solid inset-0 pointer-events-none rounded-[8px]" />
-                    <div className="flex flex-row items-center size-full">
-                      <div className="content-stretch flex gap-[12px] items-center p-[12px] relative size-full">
-                        <ChevronDown />
-                        <select
-                          value={cityFilter || 'All Cities'}
-                          onChange={e => setCityFilter(e.target.value === 'All Cities' ? '' : e.target.value)}
-                          className="font-['Inter',sans-serif] font-normal not-italic text-[#6b6b6b] text-[13px] bg-transparent outline-none w-full cursor-pointer"
-                        >
-                          {cities.map(city => <option key={city} value={city}>{city}</option>)}
-                        </select>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                {/* Country */}
-                <div className="content-stretch flex flex-col gap-[8px] items-start relative shrink-0 w-full">
-                  <p className="font-['Inter',sans-serif] font-bold leading-[15px] not-italic text-[#6b6b6b] text-[10px] tracking-[1px] uppercase whitespace-nowrap">Country</p>
-                  <div className="bg-white h-[36.606px] relative rounded-[8px] shrink-0 w-full">
-                    <div aria-hidden="true" className="absolute border-[#e8e4dc] border-[0.556px] border-solid inset-0 pointer-events-none rounded-[8px]" />
-                    <div className="flex flex-row items-center size-full">
-                      <div className="content-stretch flex gap-[12px] items-center p-[12px] relative size-full">
-                        <ChevronDown />
-                        <select
-                          value={countryFilter || 'All Countries'}
-                          onChange={e => setCountryFilter(e.target.value === 'All Countries' ? '' : e.target.value)}
-                          className="font-['Inter',sans-serif] font-normal not-italic text-[#6b6b6b] text-[13px] bg-transparent outline-none w-full cursor-pointer"
-                        >
-                          {countries.map(c => <option key={c} value={c}>{c}</option>)}
-                        </select>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                {/* Divider */}
-                <div className="bg-[#e8e4dc] h-px relative shrink-0 w-full" />
-                {/* Sort By */}
-                <div className="content-stretch flex flex-col gap-[8px] items-start relative shrink-0 w-full">
-                  <p className="font-['Inter',sans-serif] font-bold leading-[15px] not-italic text-[#6b6b6b] text-[10px] tracking-[1px] uppercase whitespace-nowrap">Sort By</p>
-                  <div className="content-stretch flex flex-col gap-[5.998px] items-start relative shrink-0 w-full">
-                    <button
-                      onClick={() => setSortBy('date')}
-                      className={`relative rounded-[8px] shrink-0 w-full cursor-pointer ${sortBy === 'date' ? 'bg-[rgba(198,165,107,0.08)]' : 'bg-white'}`}
-                    >
-                      {sortBy === 'date' && <div aria-hidden="true" className="absolute border-[0.556px] border-[rgba(198,165,107,0.28)] border-solid inset-0 pointer-events-none rounded-[8px]" />}
-                      {sortBy !== 'date' && <div aria-hidden="true" className="absolute border-[#e8e4dc] border-[0.556px] border-solid inset-0 pointer-events-none rounded-[8px]" />}
-                      <div className="flex flex-row items-center size-full">
-                        <div className="content-stretch flex items-center justify-between px-[13px] py-[9px] relative size-full">
-                          <p className={`font-['Inter',sans-serif] font-${sortBy === 'date' ? 'semibold text-[#8a6930]' : 'normal text-[#3f3f3f]'} leading-[18px] not-italic text-[12px] whitespace-nowrap`}>Date (earliest first)</p>
-                        </div>
-                      </div>
-                    </button>
-                    <button
-                      onClick={() => setSortBy('city')}
-                      className={`h-[35.095px] relative rounded-[8px] shrink-0 w-full cursor-pointer ${sortBy === 'city' ? 'bg-[rgba(198,165,107,0.08)]' : 'bg-white'}`}
-                    >
-                      {sortBy !== 'city' && <div aria-hidden="true" className="absolute border-[#e8e4dc] border-[0.556px] border-solid inset-0 pointer-events-none rounded-[8px]" />}
-                      {sortBy === 'city' && <div aria-hidden="true" className="absolute border-[0.556px] border-[rgba(198,165,107,0.28)] border-solid inset-0 pointer-events-none rounded-[8px]" />}
-                      <div className="flex flex-row items-center size-full">
-                        <div className="content-stretch flex items-center pl-[12.553px] pr-[12.556px] py-[8.556px] relative size-full">
-                          <p className={`font-['Inter',sans-serif] font-${sortBy === 'city' ? 'semibold text-[#8a6930]' : 'normal text-[#3f3f3f]'} leading-[18px] not-italic text-[12px] whitespace-nowrap`}>City (A → Z)</p>
-                        </div>
-                      </div>
-                    </button>
-                    <button
-                      onClick={() => setSortBy('availability')}
-                      className={`relative rounded-[8px] shrink-0 w-full cursor-pointer ${sortBy === 'availability' ? 'bg-[rgba(198,165,107,0.08)]' : 'bg-white'}`}
-                    >
-                      {sortBy !== 'availability' && <div aria-hidden="true" className="absolute border-[#e8e4dc] border-[0.556px] border-solid inset-0 pointer-events-none rounded-[8px]" />}
-                      {sortBy === 'availability' && <div aria-hidden="true" className="absolute border-[0.556px] border-[rgba(198,165,107,0.28)] border-solid inset-0 pointer-events-none rounded-[8px]" />}
-                      <div className="flex flex-row items-center size-full">
-                        <div className="content-stretch flex items-center pl-[12.553px] pr-[12.556px] py-[8.556px] relative size-full">
-                          <p className={`font-['Inter',sans-serif] font-${sortBy === 'availability' ? 'semibold text-[#8a6930]' : 'normal text-[#3f3f3f]'} leading-[18px] not-italic text-[12px] whitespace-nowrap`}>Availability</p>
-                        </div>
-                      </div>
-                    </button>
-                  </div>
-                </div>
-                {/* Divider */}
-                <div className="bg-[#e8e4dc] h-px relative shrink-0 w-full" />
-                {/* Count */}
-                <div className="relative shrink-0 w-full">
-                  <div className="flex flex-row items-center justify-center size-full">
-                    <div className="content-stretch flex items-center justify-center px-[60px] relative size-full">
-                      <p className="font-['Inter',sans-serif] not-italic relative shrink-0 text-[#3f3f3f] text-[0px] text-center whitespace-nowrap">
-                        <span className="leading-[18px] text-[12px] font-bold">{filtered.length}</span>
-                        <span className="font-['Inter',sans-serif] font-normal leading-[18px] text-[#6b6b6b] text-[12px]"> congresses listed</span>
-                      </p>
-                    </div>
-                  </div>
+
+                <div className="grid flex-1 grid-cols-1 gap-[12px] sm:grid-cols-2 xl:grid-cols-5">
+                  <FilterField label="Country">
+                    <FilterSelect value={countryFilter} onChange={setCountryFilter} options={countries} />
+                  </FilterField>
+                  <FilterField label="City">
+                    <FilterSelect value={cityFilter} onChange={setCityFilter} options={cities} />
+                  </FilterField>
+                  <FilterField label="Year">
+                    <FilterSelect value={yearFilter} onChange={setYearFilter} options={years} />
+                  </FilterField>
+                  <FilterField label="Specialty">
+                    <FilterSelect value={specialtyFilter} onChange={setSpecialtyFilter} options={specialties} />
+                  </FilterField>
+                  <FilterField label="Availability">
+                    <FilterSelect
+                      value={availabilityFilter}
+                      onChange={setAvailabilityFilter}
+                      options={["All Availability", "Rooms Available", "Limited Availability", "Request Rooms"]}
+                    />
+                  </FilterField>
                 </div>
               </div>
             </div>
-          </div>
 
-          {/* Congress grid */}
-          <div className="flex-[3_0_0] min-w-px">
-            {filtered.length === 0 ? (
-              <div className="flex items-center justify-center h-[200px]">
-                <p className="font-['Inter',sans-serif] text-[#6b6b6b] text-[14px]">No congresses match your filters.</p>
+            {filteredCongresses.length === 0 ? (
+              <div className="rounded-[12px] border-[0.556px] border-[#e8e4dc] bg-white p-[32px] text-center shadow-[0px_2px_12px_0px_rgba(26,26,26,0.05)]">
+                <p className="font-['Inter',sans-serif] text-[14px] font-normal text-[#6b6b6b]">
+                  No congresses match your filters.
+                </p>
               </div>
             ) : (
-              <div className="grid grid-cols-2 gap-[24px]">
-                {filtered.map(congress => (
-                  <CongressCardWithHover key={congress.id} congress={congress} />
+              <div className="grid grid-cols-1 gap-[24px] md:grid-cols-2 xl:grid-cols-3">
+                {filteredCongresses.map((congress) => (
+                  <CongressCard key={congress.id} congress={congress} />
                 ))}
               </div>
             )}
           </div>
-        </div>
+        </section>
+      </main>
 
-        <Footer />
-      </div>
+      <Footer />
     </div>
   );
 }

@@ -1,4 +1,5 @@
-import { Link } from "react-router";
+import { useState } from "react";
+import { Link, useNavigate } from "react-router";
 import { Navigation } from "../components/Navigation";
 import { Footer } from "../components/Footer";
 import svgPaths from "../../imports/HomeDraft-3/svg-g76zxkgt46";
@@ -144,9 +145,65 @@ function ServiceCard({ title, description, items }: { title: string; description
   );
 }
 
-function CongressCard({ title, location, dateRange, imgSrc }: { title: string; location: string; dateRange: string; imgSrc: string }) {
+const whyClientsChoose = [
+  {
+    title: "One contact",
+    text: "One person responsible for your project.",
+  },
+  {
+    title: "Real market access",
+    text: "From business to boutique hotels.",
+  },
+  {
+    title: "Reliable execution",
+    text: "Proven in high-demand projects.",
+  },
+  {
+    title: "Compliance",
+    text: "GDPR & HCP compliant processes.",
+  },
+];
+
+function WhyClientsChooseSection() {
   return (
-    <Link to="/congresses" className="block shrink-0">
+    <section className="bg-white content-stretch flex flex-col items-start p-[50px] relative shrink-0 w-full" data-name="Section">
+      <div className="content-stretch flex flex-col gap-[40px] items-start relative shrink-0 w-full">
+        <div className="content-stretch flex flex-col items-start relative shrink-0 w-full">
+          <div className="content-stretch flex gap-[15.998px] h-[16.493px] items-center relative shrink-0 w-full">
+            <div className="bg-gradient-to-r flex-[493.958_0_0] from-[rgba(0,0,0,0)] h-[0.998px] min-w-px relative to-[#e8e4dc]" />
+            <div className="relative shrink-0">
+              <div className="bg-clip-padding border-0 border-[transparent] border-solid content-stretch flex items-center justify-center relative size-full">
+                <p className="font-['Inter',sans-serif] font-bold leading-[16.5px] not-italic relative shrink-0 text-[#6b6b6b] text-[11px] tracking-[1.32px] uppercase whitespace-nowrap">
+                  WHY CLIENTS CHOOSE MICE MAKER
+                </p>
+              </div>
+            </div>
+            <div className="bg-gradient-to-r flex-[493.958_0_0] from-[#e8e4dc] h-[0.998px] min-w-px relative to-[rgba(0,0,0,0)]" />
+          </div>
+        </div>
+        <div className="content-stretch grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-[20px] items-stretch not-italic relative shrink-0 text-center w-full">
+          {whyClientsChoose.map((card) => (
+            <div
+              key={card.title}
+              className="bg-[#f8f7f4] border-[#e8e4dc] border-[0.556px] border-solid content-stretch flex flex-col gap-[12px] items-center justify-center min-w-px p-[24px] relative rounded-[12px] min-h-[111px]"
+            >
+              <p className="font-['Inter',sans-serif] font-extrabold leading-[34px] relative shrink-0 text-[#3f3f3f] text-[28px] text-center">
+                {card.title}
+              </p>
+              <p className="font-['Inter',sans-serif] font-normal leading-[18px] relative shrink-0 text-[#6b6b6b] text-[12px] text-center">
+                {card.text}
+              </p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function CongressCard({ title, location, dateRange, imgSrc, to }: { title: string; location: string; dateRange: string; imgSrc: string; to: string }) {
+  return (
+    <Link to={to} className="block shrink-0">
       <div
         className="h-[438px] relative w-[586px] cursor-pointer hover:scale-[1.02] transition-all duration-300"
         style={{ backgroundImage: `url(${imgSrc})`, backgroundSize: 'cover', backgroundPosition: 'center' }}
@@ -175,6 +232,22 @@ function CongressCard({ title, location, dateRange, imgSrc }: { title: string; l
 }
 
 export default function Home() {
+  const navigate = useNavigate();
+  const [searchQuery, setSearchQuery] = useState("");
+  const [specialty, setSpecialty] = useState("Any Specialty");
+  const [year, setYear] = useState("Any Year");
+  const [status, setStatus] = useState("Any Status");
+
+  const handleSearch = (event: React.FormEvent) => {
+    event.preventDefault();
+    const params = new URLSearchParams();
+    if (searchQuery.trim()) params.set("q", searchQuery.trim());
+    if (specialty !== "Any Specialty") params.set("specialty", specialty);
+    if (year !== "Any Year") params.set("year", year);
+    if (status !== "Any Status") params.set("status", status);
+    navigate(`/congresses${params.toString() ? `?${params.toString()}` : ""}`);
+  };
+
   return (
     <div className="bg-white content-stretch flex flex-col items-center relative min-h-screen w-full">
       <Navigation currentPage="home" />
@@ -194,7 +267,7 @@ export default function Home() {
                   </p>
                 </div>
                 {/* Search interface */}
-                <div className="content-stretch flex gap-[12px] items-center relative shrink-0">
+                <form onSubmit={handleSearch} className="content-stretch flex gap-[12px] items-center relative shrink-0">
                   {/* Search input */}
                   <div className="flex flex-row items-center self-stretch">
                     <div className="content-stretch flex h-full items-center relative shrink-0">
@@ -202,7 +275,12 @@ export default function Home() {
                         <div className="flex flex-row items-center overflow-clip rounded-[inherit] size-full">
                           <div className="content-stretch flex gap-[12px] items-center px-[12px] py-[8px] relative size-full">
                             <SearchIcon />
-                            <p className="font-['Inter',sans-serif] font-normal leading-[normal] not-italic relative shrink-0 text-[13px] text-[rgba(26,26,26,0.5)] whitespace-nowrap">Search congress (e.g. ESC, EHA, ESMO, city or specialty)</p>
+                            <input
+                              value={searchQuery}
+                              onChange={(event) => setSearchQuery(event.target.value)}
+                              placeholder="Search congress (e.g. ESC, EHA, ESMO, city or specialty)"
+                              className="font-['Inter',sans-serif] font-normal leading-[normal] not-italic relative shrink-0 text-[13px] text-[#1a1a1a] bg-transparent outline-none w-[360px] placeholder:text-[rgba(26,26,26,0.5)]"
+                            />
                           </div>
                         </div>
                         <div aria-hidden="true" className="absolute border-[#e8e4dc] border-[0.556px] border-solid inset-0 pointer-events-none rounded-[8px]" />
@@ -212,12 +290,36 @@ export default function Home() {
                   {/* Filters */}
                   <div className="flex flex-row items-center self-stretch">
                     <div className="content-stretch flex gap-[8px] h-full items-center relative shrink-0">
-                      {['Specialty', 'Year', 'Any Status'].map((label) => (
-                        <div key={label} className="bg-white h-full relative rounded-[8px] shrink-0">
+                      {[
+                        {
+                          value: specialty,
+                          onChange: setSpecialty,
+                          options: ['Any Specialty', 'Infectious Diseases', 'Diabetes', 'Hematology', 'Oncology', 'Cardiology', 'Rheumatology'],
+                        },
+                        {
+                          value: year,
+                          onChange: setYear,
+                          options: ['Any Year', '2026'],
+                        },
+                        {
+                          value: status,
+                          onChange: setStatus,
+                          options: ['Any Status', 'Rooms Available', 'Limited Availability', 'Request Rooms'],
+                        },
+                      ].map((control) => (
+                        <div key={control.options[0]} className="bg-white h-full relative rounded-[8px] shrink-0">
                           <div aria-hidden="true" className="absolute border-[#e8e4dc] border-[0.556px] border-solid inset-0 pointer-events-none rounded-[8px]" />
                           <div className="flex flex-row items-center size-full">
                             <div className="content-stretch flex gap-[12px] items-center p-[12px] relative size-full">
-                              <p className="font-['Inter',sans-serif] font-normal leading-[normal] not-italic relative shrink-0 text-[#6b6b6b] text-[13px] whitespace-nowrap">{label}</p>
+                              <select
+                                value={control.value}
+                                onChange={(event) => control.onChange(event.target.value)}
+                                className="font-['Inter',sans-serif] font-normal leading-[normal] not-italic relative shrink-0 text-[#6b6b6b] text-[13px] whitespace-nowrap bg-transparent outline-none appearance-none cursor-pointer pr-[18px]"
+                              >
+                                {control.options.map((option) => (
+                                  <option key={option} value={option}>{option}</option>
+                                ))}
+                              </select>
                               <DropdownIcon />
                             </div>
                           </div>
@@ -226,11 +328,11 @@ export default function Home() {
                     </div>
                   </div>
                   {/* Search button */}
-                  <Link to="/congresses" className="bg-[#c6a56b] content-stretch drop-shadow-[0px_2px_8px_rgba(198,165,107,0.35)] flex gap-[10px] items-center px-[24px] py-[12px] relative rounded-[10px] shrink-0 hover:bg-[#b8924a] transition-colors">
+                  <button type="submit" className="bg-[#c6a56b] content-stretch drop-shadow-[0px_2px_8px_rgba(198,165,107,0.35)] flex gap-[10px] items-center px-[24px] py-[12px] relative rounded-[10px] shrink-0 hover:bg-[#b8924a] transition-colors">
                     <p className="font-['Inter',sans-serif] font-bold leading-[21px] not-italic relative shrink-0 text-[14px] text-white whitespace-nowrap">Search Congresses</p>
                     <ArrowIcon />
-                  </Link>
-                </div>
+                  </button>
+                </form>
                 <div className="font-['Inter',sans-serif] font-normal leading-[29.75px] min-w-full not-italic relative shrink-0 text-[#6b6b6b] text-[17px] w-[min-content] whitespace-pre-wrap">
                   <p className="mb-0">{`Secure hotel availability for major medical congresses across Europe for agencies `}</p>
                   <p>and pharmaceutical clients working under pressure and limited supply.</p>
@@ -296,30 +398,35 @@ export default function Home() {
                   location="Munich, Germany"
                   dateRange="17–21 April 2026"
                   imgSrc={imgEscmid}
+                  to="/congresses/escmid"
                 />
                 <CongressCard
                   title="European Association for the Study of Diabetes"
                   location="Hamburg, Germany"
                   dateRange="28 September – 2 October 2026"
                   imgSrc={imgEasd}
+                  to="/congresses/easd"
                 />
                 <CongressCard
                   title="European Hematology Association Congress"
                   location="Milan, Italy"
                   dateRange="11–14 June 2026"
                   imgSrc={imgEha}
+                  to="/congresses/eha"
                 />
                 <CongressCard
                   title="European Society for \nMedical Oncology Congress"
                   location="Prague, Czech Republic"
                   dateRange="23–27 October 2026"
                   imgSrc={imgEsmo}
+                  to="/congresses/esmo"
                 />
                 <CongressCard
                   title="European Society of Cardiology Congress"
                   location="London, United Kingdom"
                   dateRange="29 August – 1 September 2026"
                   imgSrc={imgEsc}
+                  to="/congresses/esc"
                 />
                 {/* Duplicate set for seamless loop */}
                 <CongressCard
@@ -327,30 +434,35 @@ export default function Home() {
                   location="Munich, Germany"
                   dateRange="17–21 April 2026"
                   imgSrc={imgEscmid}
+                  to="/congresses/escmid"
                 />
                 <CongressCard
                   title="European Association for the Study of Diabetes"
                   location="Hamburg, Germany"
                   dateRange="28 September – 2 October 2026"
                   imgSrc={imgEasd}
+                  to="/congresses/easd"
                 />
                 <CongressCard
                   title="European Hematology Association Congress"
                   location="Milan, Italy"
                   dateRange="11–14 June 2026"
                   imgSrc={imgEha}
+                  to="/congresses/eha"
                 />
                 <CongressCard
                   title="European Society for \nMedical Oncology Congress"
                   location="Prague, Czech Republic"
                   dateRange="23–27 October 2026"
                   imgSrc={imgEsmo}
+                  to="/congresses/esmo"
                 />
                 <CongressCard
                   title="European Society of Cardiology Congress"
                   location="London, United Kingdom"
                   dateRange="29 August – 1 September 2026"
                   imgSrc={imgEsc}
+                  to="/congresses/esc"
                 />
               </div>
             </div>
@@ -361,6 +473,8 @@ export default function Home() {
             </Link>
           </div>
         </div>
+
+        <WhyClientsChooseSection />
 
         <Footer />
       </div>
